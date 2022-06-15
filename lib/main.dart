@@ -125,11 +125,13 @@ class Home extends StatelessWidget {
                         permission.checkCameraPermission(() {
                           Get.toNamed(feature["route"] as String);
                         });
-                      }else if (feature["name"] as String == "Bluetooth") {
+                      } else if (feature["name"] as String == "Bluetooth") {
                         permission.checkLocationPermission(() {
-                          Get.toNamed(feature["route"] as String);
+                          permission.checkBluetooth(() {
+                            Get.toNamed(feature["route"] as String);
+                          });
                         });
-                      }else if(feature["name"] as String == "Microphone") {
+                      } else if (feature["name"] as String == "Microphone") {
                         permission.checkMicrophonePermission(() {
                           Get.toNamed(feature["route"] as String);
                         });

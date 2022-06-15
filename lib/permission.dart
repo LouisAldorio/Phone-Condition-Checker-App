@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import "package:checker_app_poc/utils/title_case.dart";
@@ -11,7 +12,8 @@ class PermissiongGateway {
     Get.dialog(
       CupertinoAlertDialog(
         title: Text("${type.name.toString().toTitleCase()} Permission"),
-        content: Text("Please Allow permission on ${type.name.toString().toTitleCase()} to continue"),
+        content: Text(
+            "Please Allow permission on ${type.name.toString().toTitleCase()} to continue"),
         actions: <Widget>[
           CupertinoDialogAction(
             child: const Text("Settings"),
@@ -86,6 +88,41 @@ class PermissiongGateway {
 
     if (status.isGranted) {
       callback();
+    }
+  }
+
+  void checkBluetooth(Function callback) async {
+    FlutterBlue bluetoothController = FlutterBlue.instance;
+
+    if (await bluetoothController.isAvailable == false) {
+      Get.snackbar("Bluetooth", "Device does not support bluetooth");
+    } else {
+      if (await bluetoothController.isOn) {
+        callback();
+      } else {
+        Get.dialog(
+          CupertinoAlertDialog(
+            title: const Text("Bluetooth"),
+            content: const Text("Please turn on bluetooth to continue"),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: const Text("Settings"),
+                onPressed: () {
+                  AppSettings.openBluetoothSettings().then((value) {
+                    Get.back();
+                  });
+                },
+              ),
+              CupertinoDialogAction(
+                child: const Text("Cancel"),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 }
