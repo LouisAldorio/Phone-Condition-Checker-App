@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 
 import 'package:vibration/vibration.dart';
@@ -52,13 +54,25 @@ class _ProximitySensingState extends State<ProximitySensing>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Proximity Sensor Testing'),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Proximity Sensor Test'),
+        leading: CupertinoNavigationBarBackButton(
+          color: Theme.of(context).colorScheme.primary,
+          previousPageTitle: "Home",
+          onPressed: () => Get.back(),
+        ),
       ),
-      body: const Center(
-        child:
-            Text('Put your phone on your ear, like you are calling somebody!'),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              'Put your phone on your ear, like you are calling somebody!',
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
       ),
     );
   }

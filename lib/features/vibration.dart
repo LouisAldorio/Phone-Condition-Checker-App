@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 
 class Vibrations extends StatefulWidget {
@@ -19,14 +21,22 @@ class _VibrationsState extends State<Vibrations> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Vibration Testing'),
+        leading: CupertinoNavigationBarBackButton(
+          color: Theme.of(context).colorScheme.primary,
+          previousPageTitle: "Home",
+          onPressed: () => Get.back(),
+        ),
+      ),
+      child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: ElevatedButton(
+              child: CupertinoButton.filled(
                 child: const Text('Press Me to start vibrating!'),
                 onPressed: () {
                   Vibration.vibrate(

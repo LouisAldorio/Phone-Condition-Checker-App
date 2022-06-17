@@ -1,5 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 class Volumes extends StatefulWidget {
@@ -45,65 +47,73 @@ class _VolumesState extends State<Volumes> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Volume Plugin example app'),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Volume Testing'),
+        leading: CupertinoNavigationBarBackButton(
+          color: Theme.of(context).colorScheme.primary,
+          previousPageTitle: "Home",
+          onPressed: () => Get.back(),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Text('Current volume: $_volumeListenerValue'),
-            Row(
-              children: [
-                const Text('Set Volume:'),
-                Flexible(
-                  child: Slider(
-                    min: 0,
-                    max: 1,
-                    onChanged: (double value) {
-                      _setVolumeValue = value;
-                      VolumeController().setVolume(_setVolumeValue);
-                      setState(() {});
-                    },
-                    value: _setVolumeValue,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            children: [
+              Text('Current volume: $_volumeListenerValue'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Set Volume:'),
+                  Flexible(
+                    child: CupertinoSlider(
+                      min: 0,
+                      max: 1,
+                      onChanged: (double value) {
+                        _volumeListenerValue = value;
+                        VolumeController().setVolume(_volumeListenerValue);
+                        setState(() {});
+                      },
+                      value: _volumeListenerValue,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Volume is: $_getVolume'),
-                TextButton(
-                  onPressed: () async {
-                    _getVolume = await VolumeController().getVolume();
-                    setState(() {});
-                  },
-                  child: const Text('Get Volume'),
-                ),
-              ],
-            ),
-            TextButton(
-              onPressed: () => VolumeController().muteVolume(),
-              child: const Text('Mute Volume'),
-            ),
-            TextButton(
-              onPressed: () => VolumeController().maxVolume(),
-              child: const Text('Max Volume'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show system UI:${VolumeController().showSystemUI}'),
-                TextButton(
-                  onPressed: () => setState(() => VolumeController()
-                      .showSystemUI = !VolumeController().showSystemUI),
-                  child: const Text('Show/Hide UI'),
-                )
-              ],
-            ),
-          ],
+                ],
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text('Volume is: $_getVolume'),
+              //     TextButton(
+              //       onPressed: () async {
+              //         _getVolume = await VolumeController().getVolume();
+              //         setState(() {});
+              //       },
+              //       child: const Text('Get Volume'),
+              //     ),
+              //   ],
+              // ),
+              TextButton(
+                onPressed: () => VolumeController().muteVolume(),
+                child: const Text('Mute Volume'),
+              ),
+              TextButton(
+                onPressed: () => VolumeController().maxVolume(),
+                child: const Text('Max Volume'),
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text('Show system UI:${VolumeController().showSystemUI}'),
+              //     TextButton(
+              //       onPressed: () => setState(() => VolumeController()
+              //           .showSystemUI = !VolumeController().showSystemUI),
+              //       child: const Text('Show/Hide UI'),
+              //     )
+              //   ],
+              // ),
+            ],
+          ),
         ),
       ),
     );

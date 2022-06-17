@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:headset_connection_event/headset_event.dart';
 
 class AudioJack extends StatefulWidget {
@@ -27,12 +29,20 @@ class _AudioJackState extends State<AudioJack> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Audio Jack'),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Audio Jack Port'),
+        leading: CupertinoNavigationBarBackButton(
+          color: Theme.of(context).colorScheme.primary,
+          previousPageTitle: "Home",
+          onPressed: () => Get.back(),
+        ),
       ),
-      body: Center(
-        child: Text('Audio Jack ${headsetEvent.name}'),
+      child: Center(
+        child: Text(
+          'Audio Jack ${headsetEvent.name}',
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

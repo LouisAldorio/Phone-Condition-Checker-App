@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mic_stream/mic_stream.dart';
 
 enum Command {
@@ -141,33 +143,40 @@ class _MicrophonesState extends State<Microphones>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Microphones'),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Microphones'),
+        leading: CupertinoNavigationBarBackButton(
+          color: Theme.of(context).colorScheme.primary,
+          previousPageTitle: "Home",
+          onPressed: () => Get.back(),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          !isRecording
-              ? _controlMicStream(Command.start)
-              : _controlMicStream(Command.stop);
-        },
-        child: (isRecording)
-            ? const Icon(Icons.stop)
-            : const Icon(Icons.keyboard_voice),
-        foregroundColor: Colors.white,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        tooltip: (isRecording) ? "Stop recording" : "Start recording",
-      ),
-      body: Padding(
-        padding:
-            EdgeInsets.only(top: (MediaQuery.of(context).size.height * 0.25)),
-        child: CustomPaint(
-          painter: WavePainter(
-            samples: visibleSamples,
-            color: Theme.of(context).colorScheme.primary,
-            localMax: localMax,
-            localMin: localMin,
-            context: context,
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            !isRecording
+                ? _controlMicStream(Command.start)
+                : _controlMicStream(Command.stop);
+          },
+          child: (isRecording)
+              ? const Icon(Icons.stop)
+              : const Icon(Icons.keyboard_voice),
+          foregroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          tooltip: (isRecording) ? "Stop recording" : "Start recording",
+        ),
+        body: Padding(
+          padding:
+              EdgeInsets.only(top: (MediaQuery.of(context).size.height * 0.25)),
+          child: CustomPaint(
+            painter: WavePainter(
+              samples: visibleSamples,
+              color: Theme.of(context).colorScheme.primary,
+              localMax: localMax,
+              localMin: localMin,
+              context: context,
+            ),
           ),
         ),
       ),

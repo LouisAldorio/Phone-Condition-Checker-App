@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ffi';
 import "dart:math" as math;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get/get.dart';
@@ -97,9 +98,9 @@ class _BluetoothState extends State<Bluetooth>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CupertinoPageScaffold(
       backgroundColor: Colors.white10,
-      body: AnimatedBuilder(
+      child: AnimatedBuilder(
           animation: controller,
           builder: (context, child) {
             return Padding(

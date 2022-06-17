@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:battery_plus/battery_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Charging extends StatefulWidget {
   const Charging({Key? key}) : super(key: key);
@@ -83,11 +85,16 @@ class _ChargingState extends State<Charging> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Charging Port Testing'),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Charging Port'),
+        leading: CupertinoNavigationBarBackButton(
+          color: Theme.of(context).colorScheme.primary,
+          previousPageTitle: "Home",
+          onPressed: () => Get.back(),
+        ),
       ),
-      body: Center(
+      child: Center(
         child: Text(batteryState),
       ),
     );

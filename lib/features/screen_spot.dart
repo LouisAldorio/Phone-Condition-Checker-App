@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class ScreenSpot extends StatefulWidget {
   const ScreenSpot({Key? key}) : super(key: key);
@@ -14,11 +16,16 @@ class ScreenSpot extends StatefulWidget {
 class _ScreenSpotState extends State<ScreenSpot> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Screen Spot Testing'),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Screen Spot Testing'),
+        leading: CupertinoNavigationBarBackButton(
+          color: Theme.of(context).colorScheme.primary,
+          previousPageTitle: "Home",
+          onPressed: () => Get.back(),
+        ),
       ),
-      body: Center(
+      child: Center(
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -38,7 +45,7 @@ class _ScreenSpotState extends State<ScreenSpot> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
+              CupertinoButton.filled(
                   onPressed: () {
                     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
                         overlays: [SystemUiOverlay.bottom]);

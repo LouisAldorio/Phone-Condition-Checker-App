@@ -12,6 +12,7 @@ import 'package:checker_app_poc/features/touch_calibration.dart';
 import 'package:checker_app_poc/features/vibration.dart';
 import 'package:checker_app_poc/features/volume.dart';
 import 'package:checker_app_poc/permission.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -106,8 +107,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return CupertinoPageScaffold(
+      child: SafeArea(
         child: Center(
           child: OrientationBuilder(
             builder: (context, orientation) {
@@ -119,7 +120,7 @@ class Home extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
                 children: features.map((feature) {
-                  return InkWell(
+                  return GestureDetector(
                     onTap: () {
                       if (feature["name"] as String == "Camera") {
                         permission.checkCameraPermission(() {
@@ -177,8 +178,9 @@ class Root extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return GetMaterialApp(
+    return GetCupertinoApp(
       initialRoute: Home.routeName,
+      defaultTransition: Transition.cupertino,
       getPages: [
         GetPage(
           name: Home.routeName,
@@ -234,27 +236,33 @@ class Root extends StatelessWidget {
           page: () => const AudioJack(),
         ),
       ],
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFF9F8FD),
-        primaryColor: const Color.fromARGB(255, 0, 150, 136),
-        primarySwatch: MaterialColor(
-          const Color.fromARGB(255, 0, 150, 136).value,
-          const <int, Color>{
-            50: Color.fromARGB(255, 0, 150, 136),
-            100: Color.fromARGB(255, 0, 150, 136),
-            200: Color.fromARGB(255, 0, 150, 136),
-            300: Color.fromARGB(255, 0, 150, 136),
-            400: Color.fromARGB(255, 0, 150, 136),
-            500: Color.fromARGB(255, 0, 150, 136),
-            600: Color.fromARGB(255, 0, 150, 136),
-            700: Color.fromARGB(255, 0, 150, 136),
-            800: Color.fromARGB(255, 0, 150, 136),
-            900: Color.fromARGB(255, 0, 150, 136),
-          },
-        ),
-        appBarTheme: const AppBarTheme(color: Colors.teal),
-        typography: Typography.material2018(),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+      localizationsDelegates: const [
+        DefaultMaterialLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+      ],
+      theme: const CupertinoThemeData(
+        scaffoldBackgroundColor: Color(0xFFF9F8FD),
+        // primaryColor: Color.fromARGB(255, 0, 150, 136),
+        // barBackgroundColor: Color.fromARGB(255, 0, 150, 136)
+        // primarySwatch: MaterialColor(
+        //   const Color.fromARGB(255, 0, 150, 136).value,
+        //   const <int, Color>{
+        //     50: Color.fromARGB(255, 0, 150, 136),
+        //     100: Color.fromARGB(255, 0, 150, 136),
+        //     200: Color.fromARGB(255, 0, 150, 136),
+        //     300: Color.fromARGB(255, 0, 150, 136),
+        //     400: Color.fromARGB(255, 0, 150, 136),
+        //     500: Color.fromARGB(255, 0, 150, 136),
+        //     600: Color.fromARGB(255, 0, 150, 136),
+        //     700: Color.fromARGB(255, 0, 150, 136),
+        //     800: Color.fromARGB(255, 0, 150, 136),
+        //     900: Color.fromARGB(255, 0, 150, 136),
+        //   },
+        // ),
+        // appBarTheme: const AppBarTheme(color: Colors.teal),
+        // typography: Typography.material2018(),
+        // visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       title: 'Phone Checker App',
     );

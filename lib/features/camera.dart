@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -49,7 +50,7 @@ class _CameraState extends State<Camera> with WidgetsBindingObserver {
     if (status.isDenied) {
       Get.back();
       Get.snackbar(
-          "Camera Permission", "Please Allow permission on camera to continue");
+          "Camera Permission", "Please Allow permission on camera to continue", backgroundColor: Colors.teal, colorText: Colors.white);
     }
 
     if (status.isPermanentlyDenied) {
@@ -104,28 +105,35 @@ class _CameraState extends State<Camera> with WidgetsBindingObserver {
       return Container();
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Phone has $camerasCount cameras'),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('Phone has $camerasCount cameras'),
+        leading: CupertinoNavigationBarBackButton(
+          color: Theme.of(context).colorScheme.primary,
+          previousPageTitle: "Home",
+          onPressed: () => Get.back(),
+        ),
       ),
-      body: CameraPreview(cameraController!),
-      bottomNavigationBar: _cameras.isEmpty
-          ? null
-          : BottomNavigationBar(
-              items: _cameras.map((CameraDescription camera) {
-                return BottomNavigationBarItem(
-                  icon: const Icon(Icons.camera),
-                  label: "Camera ${camera.name}",
-                );
-              }).toList(),
-              currentIndex: _currentCameraIndex,
-              onTap: (int index) {
-                setState(() {
-                  _currentCameraIndex = index;
-                  updateCamera();
-                });
-              },
-            ),
+      child: Scaffold(
+        body: CameraPreview(cameraController!),
+        bottomNavigationBar: _cameras.isEmpty
+            ? null
+            : BottomNavigationBar(
+                items: _cameras.map((CameraDescription camera) {
+                  return BottomNavigationBarItem(
+                    icon: const Icon(Icons.camera),
+                    label: "Camera ${camera.name}",
+                  );
+                }).toList(),
+                currentIndex: _currentCameraIndex,
+                onTap: (int index) {
+                  setState(() {
+                    _currentCameraIndex = index;
+                    updateCamera();
+                  });
+                },
+              ),
+      ),
     );
   }
 }

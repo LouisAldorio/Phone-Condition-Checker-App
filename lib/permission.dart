@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -41,7 +42,7 @@ class PermissiongGateway {
 
     if (status.isDenied) {
       Get.snackbar(
-          "Camera Permission", "Please Allow permission on camera to continue");
+          "Camera Permission", "Please Allow permission on camera to continue", backgroundColor: Colors.teal, colorText: Colors.white);
     }
 
     if (status.isPermanentlyDenied) {
@@ -60,7 +61,7 @@ class PermissiongGateway {
 
     if (status.isDenied) {
       Get.snackbar("Microphone Permission",
-          "Please Allow permission on microphone to continue");
+          "Please Allow permission on microphone to continue", backgroundColor: Colors.teal, colorText: Colors.white);
     }
 
     if (status.isPermanentlyDenied) {
@@ -79,7 +80,7 @@ class PermissiongGateway {
 
     if (status.isDenied) {
       Get.snackbar("Location Permission",
-          "Please Allow permission on location to continue");
+          "Please Allow permission on location to continue", backgroundColor: Colors.teal, colorText: Colors.white);
     }
 
     if (status.isPermanentlyDenied) {
@@ -95,7 +96,7 @@ class PermissiongGateway {
     FlutterBlue bluetoothController = FlutterBlue.instance;
 
     if (await bluetoothController.isAvailable == false) {
-      Get.snackbar("Bluetooth", "Device does not support bluetooth");
+      Get.snackbar("Bluetooth", "Device does not support bluetooth", backgroundColor: Colors.teal, colorText: Colors.white);
     } else {
       if (await bluetoothController.isOn) {
         callback();

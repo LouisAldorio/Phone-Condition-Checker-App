@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -55,15 +56,16 @@ class _TouchCalibrationState extends State<TouchCalibration>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Listener(
+    return CupertinoPageScaffold(
+      child: Listener(
         onPointerDown: _detectTapedItem,
         onPointerMove: _detectTapedItem,
         onPointerUp: (PointerUpEvent event) {
           if (selectedIndexes.length == (crossAxisCount * crossAxisCount)) {
             Get.back();
             Get.snackbar(
-                "Touch Calibration done!", "Your touch screen works very well");
+                "Touch Calibration done!", "Your touch screen works very well",
+                backgroundColor: Colors.teal, colorText: Colors.white);
           }
         },
         child: GridView.builder(
